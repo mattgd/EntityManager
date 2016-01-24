@@ -1,0 +1,16 @@
+name: EntityManager
+version: 1.0
+main: me.mattgd.entitymanager.EntityManager
+author: mattgd
+description: Entity manager plugin.
+
+commands:
+   entitymanager:
+      description: EntityManager command.
+      usage: /<command>
+      permission: entitymanager.use
+      aliases: em
+permissions:
+   entitymanager.use:
+      description: Allows you to use EntityManager
+      default: op
