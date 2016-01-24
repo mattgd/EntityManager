@@ -128,6 +128,7 @@ public class EntityManager extends JavaPlugin implements CommandExecutor {
 		sender.sendMessage(msg);
 	}
 	
+	// Gets the appropriate world based on CommandSender instance
 	private World getWorld(CommandSender sender) {
 		World world = null;
 		if (sender instanceof Player) {
