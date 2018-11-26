@@ -49,21 +49,22 @@ public class EntityManager extends JavaPlugin implements CommandExecutor {
 							return true;
 						}
 						
-						List<UUID> entityUUIDs = new ArrayList<UUID>();
-						Map<UUID, Location> duplicateEntities = new HashMap<UUID, Location>();
+						List<UUID> entityUUIDs = new ArrayList<>();
+						Map<UUID, Location> duplicateEntities = new HashMap<>();
 						for (LivingEntity le : world.getLivingEntities()) {
 							if (entityUUIDs.contains(le.getUniqueId())) {
 								duplicateEntities.put(le.getUniqueId(), le.getLocation());
 							}
+
 							entityUUIDs.add(le.getUniqueId());
 						}
 						
 						if (duplicateEntities.isEmpty()) {
 							sender.sendMessage(ChatColor.RED + "Could not find any duplicate entities.");
 						} else {
-							String message = "";
+							StringBuilder message = new StringBuilder();
 							for (Entry<UUID, Location> e : duplicateEntities.entrySet()) {
-								message += "Entity " + e.getKey() + " at x:" + (int) e.getValue().getX() + ", y:" + (int) e.getValue().getY() + ", z:" + (int) e.getValue().getZ() + "\n";
+								message.append("Entity " + e.getKey() + " at x:" + (int) e.getValue().getX() + ", y:" + (int) e.getValue().getY() + ", z:" + (int) e.getValue().getZ() + "\n");
 							}
 							
 							sender.sendMessage(ChatColor.GREEN + "Duplicate entities:\n" + message);
@@ -102,7 +103,7 @@ public class EntityManager extends JavaPlugin implements CommandExecutor {
 							message(sender, "&cNo entity selected.");
 						} else {
 							Firework firework = selectedEntity.getWorld().spawn(selectedEntity.getLocation(), Firework.class);
-							FireworkMeta data = (FireworkMeta) firework.getFireworkMeta();
+							FireworkMeta data = firework.getFireworkMeta();
 					        data.addEffects(FireworkEffect.builder().withColor(Color.LIME).with(Type.BALL).build());
 					        data.setPower(0);
 					        firework.setFireworkMeta(data);
@@ -127,8 +128,12 @@ public class EntityManager extends JavaPlugin implements CommandExecutor {
 		msg = ChatColor.translateAlternateColorCodes('&', msg);
 		sender.sendMessage(msg);
 	}
-	
-	// Gets the appropriate world based on CommandSender instance
+
+	/**
+	 * Gets the appropriate world based on CommandSender instance.
+	 * @param sender The CommandSender instance.
+	 * @return the World that the CommandSender is in.
+	 */
 	private World getWorld(CommandSender sender) {
 		World world = null;
 		if (sender instanceof Player) {
@@ -144,4 +149,5 @@ public class EntityManager extends JavaPlugin implements CommandExecutor {
 		
 		return world;
 	}
+
 }
